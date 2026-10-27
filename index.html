@@ -1,51 +1,120 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#07100b"><title>FREEZA MOBILE | Asset Analyzer</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#041008">
+<title>FREEZA MOBILE | Scanner de Assets</title>
+
 <style>
-:root{--bg:#060a08;--panel:#0d1711;--green:#24ff78;--mint:#9bffbd;--text:#effff3;--muted:#9db5a4;--line:#234a31;--warn:#ffd166}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#102b19 0,#060a08 58%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
-.wrap{width:min(100% - 28px,900px);margin:auto;padding:26px 0 34px}header{text-align:center;padding:22px 8px 26px}
-.logo{display:inline-grid;place-items:center;width:62px;height:62px;border:1px solid var(--green);border-radius:18px;color:var(--green);font-size:27px;font-weight:900;box-shadow:0 0 25px #24ff7830;margin-bottom:12px}
-h1{font-size:clamp(27px,6vw,42px);margin:0;letter-spacing:1.5px;color:var(--green);text-shadow:0 0 18px #24ff7840}.subtitle{color:var(--muted);margin:8px 0 0;font-size:13px;letter-spacing:2px}
-.card{background:linear-gradient(145deg,#101b14f5,#09110cfa);border:1px solid var(--line);border-radius:18px;padding:20px;margin:14px 0;box-shadow:0 10px 30px #0005}
-h2{font-size:17px;margin:0 0 14px;color:var(--mint)}.files{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.filebox{border:1px dashed #3c7850;border-radius:14px;padding:16px 12px;text-align:center;background:#07110b}.icon{font-size:26px;margin-bottom:8px}.filebox strong{display:block;font-size:14px;margin-bottom:5px}
-.filebox p{font-size:12px;color:var(--muted);margin:0 0 13px;overflow-wrap:anywhere}input[type=file]{display:none}
-.pick,.primary,.secondary{border:0;border-radius:10px;padding:12px 14px;font-weight:800;cursor:pointer;font-size:13px}.pick{background:#163d25;color:var(--mint);border:1px solid #2d7144;display:inline-block}
-.primary{background:var(--green);color:#041108;width:100%;margin-top:15px;box-shadow:0 0 20px #24ff7820}.secondary{background:#17271c;color:var(--mint);border:1px solid var(--line);width:100%;margin-top:9px}
-.status{font-size:13px;color:var(--muted);margin:12px 0 0;line-height:1.5}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.stat{background:#07110b;border:1px solid var(--line);border-radius:12px;padding:14px 10px;min-width:0}.stat span{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.8px}
-.stat strong{display:block;color:var(--green);font-size:clamp(15px,3.5vw,21px);margin-top:7px;overflow-wrap:anywhere}
-.resultline{padding:12px;border-radius:10px;background:#07110b;margin-top:12px;font-size:13px;line-height:1.6;overflow-wrap:anywhere}.good{color:var(--green)}.warn{color:var(--warn)}.hash{font-family:ui-monospace,monospace;font-size:11px;word-break:break-all;color:#b9d7c1}
-footer{text-align:center;color:var(--muted);font-size:11px;letter-spacing:1.2px;padding:22px 5px 0}.note{font-size:12px;line-height:1.6;color:var(--muted)}.hidden{display:none}
-@media(max-width:560px){.files{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.card{padding:16px}.filebox{text-align:left}.filebox .pick{margin-top:5px}}
-</style></head><body><div class="wrap">
-<header><div class="logo">&lt;/&gt;</div><h1>FREEZA MOBILE</h1><p class="subtitle">ASSET ANALYZER · FERRAMENTAS LOCAIS</p></header>
-<section class="card"><h2>01 / Selecione os arquivos</h2><div class="files">
-<div class="filebox"><div class="icon">📁</div><strong>Arquivo original</strong><p id="originalName">Nenhum arquivo selecionado</p><label class="pick" for="originalFile">ESCOLHER ORIGINAL</label><input id="originalFile" type="file"></div>
-<div class="filebox"><div class="icon">🧩</div><strong>Arquivo modificado</strong><p id="modifiedName">Nenhum arquivo selecionado</p><label class="pick" for="modifiedFile">ESCOLHER MODIFICADO</label><input id="modifiedFile" type="file"></div></div>
-<button class="primary" id="analyzeBtn">ANALISAR ARQUIVOS</button><p class="status">Privacidade: os arquivos são lidos localmente no navegador e não são enviados a um servidor por esta página.</p></section>
-<section class="card hidden" id="results"><h2>02 / Resultado da análise</h2><div class="stats">
-<div class="stat"><span>Tamanho original</span><strong id="sizeA">—</strong></div><div class="stat"><span>Tamanho modificado</span><strong id="sizeB">—</strong></div><div class="stat"><span>Diferença</span><strong id="delta">—</strong></div></div>
-<div class="resultline" id="sizeStatus"></div><div class="resultline"><strong>SHA-256 — original</strong><div class="hash" id="hashA">Calculando…</div></div>
-<div class="resultline"><strong>SHA-256 — modificado</strong><div class="hash" id="hashB">Calculando…</div></div><div class="resultline" id="contentStatus"></div>
-<button class="secondary" id="downloadBtn">BAIXAR CÓPIA DO ARQUIVO MODIFICADO</button>
-<p class="note">O download preserva os bytes do arquivo modificado selecionado. Esta ferramenta compara tamanho e hash; ela não valida a estrutura interna de arquivos Unity e não altera o tamanho automaticamente.</p></section>
-<section class="card"><h2>03 / Sobre a ferramenta</h2><p class="note">Esta versão compara tamanhos exatos e calcula SHA-256. Um arquivo ter o mesmo tamanho do original não garante que continue válido: assets podem conter metadados, offsets, compressão e referências internas. Não corte nem acrescente bytes sem conhecer o formato.</p></section>
-<footer>CRIADO POR FREEZA MOBILE<br><span style="display:inline-block;margin-top:8px">BUILD 0.1 · PROCESSAMENTO NO NAVEGADOR</span></footer></div>
-<script>
-const $=id=>document.getElementById(id);let original=null,modified=null;
-const fmt=n=>n<1024?`${n} bytes`:n<1024**2?`${(n/1024).toFixed(2)} KB`:n<1024**3?`${(n/1024**2).toFixed(2)} MB`:`${(n/1024**3).toFixed(2)} GB`;
-$('originalFile').addEventListener('change',e=>{original=e.target.files[0]||null;$('originalName').textContent=original?`${original.name} · ${fmt(original.size)}`:'Nenhum arquivo selecionado'});
-$('modifiedFile').addEventListener('change',e=>{modified=e.target.files[0]||null;$('modifiedName').textContent=modified?`${modified.name} · ${fmt(modified.size)}`:'Nenhum arquivo selecionado'});
-async function sha256(file){if(file.size>150*1024*1024)return 'Arquivo acima de 150 MB: hash omitido para proteger a memória do celular.';const data=await file.arrayBuffer();const digest=await crypto.subtle.digest('SHA-256',data);return [...new Uint8Array(digest)].map(b=>b.toString(16).padStart(2,'0')).join('')}
-$('analyzeBtn').addEventListener('click',async()=>{if(!original||!modified){alert('Selecione o arquivo original e o modificado.');return}
-$('results').classList.remove('hidden');$('sizeA').textContent=fmt(original.size);$('sizeB').textContent=fmt(modified.size);const d=modified.size-original.size;$('delta').textContent=(d>0?'+':'')+fmt(d);
-$('sizeStatus').innerHTML=original.size===modified.size?'<span class="good">✓ Os arquivos têm o mesmo tamanho exato.</span>':`<span class="warn">⚠ Tamanhos diferentes: o modificado é ${d>0?'maior':'menor'} por ${fmt(Math.abs(d))}.</span>`;
-$('contentStatus').textContent='Calculando hashes SHA-256…';$('hashA').textContent='Calculando…';$('hashB').textContent='Calculando…';
-try{const [a,b]=await Promise.all([sha256(original),sha256(modified)]);$('hashA').textContent=a;$('hashB').textContent=b;$('contentStatus').innerHTML=a===b?'<span class="good">Os hashes são iguais: os conteúdos são idênticos.</span>':'<span class="warn">Os hashes são diferentes ou um hash foi omitido. Isso não indica, por si só, corrupção.</span>'}catch(err){$('contentStatus').textContent='Não foi possível calcular o hash: '+err.message}
-$('results').scrollIntoView({behavior:'smooth',block:'start'})});
-$('downloadBtn').addEventListener('click',()=>{if(!modified)return;const url=URL.createObjectURL(modified);const a=document.createElement('a');a.href=url;a.download=modified.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)});
-</script></body></html>
+:root {
+  --bg:#030805;
+  --panel:#08140c;
+  --panel2:#0b1d11;
+  --green:#28ff78;
+  --mint:#a8ffc5;
+  --text:#edfff2;
+  --muted:#91b49c;
+  --line:#1d5631;
+  --amber:#ffd166;
+  --red:#ff687d;
+}
+
+* {
+  box-sizing:border-box;
+}
+
+body {
+  margin:0;
+  background:radial-gradient(
+    ellipse at 50% -15%,
+    #123b20 0,
+    #061009 45%,
+    #030805 78%
+  );
+  color:var(--text);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  min-height:100vh;
+}
+
+.wrap {
+  width:min(100% - 26px,960px);
+  margin:auto;
+  padding:20px 0 32px;
+}
+
+header {
+  text-align:center;
+  padding:22px 8px 25px;
+}
+
+.logo {
+  display:inline-grid;
+  place-items:center;
+  width:64px;
+  height:64px;
+  border:1px solid var(--green);
+  border-radius:18px;
+  color:var(--green);
+  font-size:26px;
+  font-weight:900;
+  box-shadow:0 0 28px #28ff7830;
+  margin-bottom:13px;
+  background:#07170c;
+}
+
+h1 {
+  font-size:clamp(27px,6vw,43px);
+  margin:0;
+  letter-spacing:1.5px;
+  color:var(--green);
+  text-shadow:0 0 20px #28ff7840;
+}
+
+.subtitle {
+  color:var(--muted);
+  margin:8px 0 0;
+  font-size:11px;
+  letter-spacing:2px;
+}
+
+.live {
+  display:inline-flex;
+  gap:8px;
+  align-items:center;
+  color:var(--mint);
+  font-size:10px;
+  letter-spacing:1.3px;
+  margin-top:15px;
+  border:1px solid var(--line);
+  border-radius:30px;
+  padding:7px 11px;
+  background:#06140a;
+}
+
+.dot {
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 10px var(--green);
+}
+
+.card {
+  background:linear-gradient(145deg,#0c1b11f5,#061009fa);
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:19px;
+  margin:13px 0;
+  box-shadow:0 12px 32px #0005;
+}
+
+h2 {
+  font-size:15px;
+  margin:0 0 15px;
+  color:var(--mint);
+  letter-spacing:.4px;
+}
+
+.num {
+  color:var
