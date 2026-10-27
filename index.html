@@ -13,108 +13,970 @@
   --panel2:#0b1d11;
   --green:#28ff78;
   --mint:#a8ffc5;
-  --text:#edfff2;
-  --muted:#91b49c;
-  --line:#1d5631;
-  --amber:#ffd166;
-  --red:#ff687d;
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#030805">
+
+<title>FREEZA MOBILE | SCANNER PRO</title>
+
+<style>
+:root {
+  --bg: #030805;
+  --panel: #08140c;
+  --panel2: #0d2113;
+  --green: #25ff78;
+  --mint: #b2ffcb;
+  --text: #effff3;
+  --muted: #91b49b;
+  --line: #205a34;
+  --yellow: #ffd166;
+  --red: #ff647c;
 }
 
 * {
-  box-sizing:border-box;
+  box-sizing: border-box;
 }
 
 body {
-  margin:0;
-  background:radial-gradient(
-    ellipse at 50% -15%,
-    #123b20 0,
-    #061009 45%,
-    #030805 78%
-  );
-  color:var(--text);
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-  min-height:100vh;
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  background:
+    radial-gradient(ellipse at top, #10351c 0%, transparent 48%),
+    var(--bg);
+  font-family: system-ui, Arial, sans-serif;
 }
 
 .wrap {
-  width:min(100% - 26px,960px);
-  margin:auto;
-  padding:20px 0 32px;
+  max-width: 950px;
+  width: calc(100% - 24px);
+  margin: auto;
+  padding: 22px 0 35px;
 }
 
 header {
-  text-align:center;
-  padding:22px 8px 25px;
+  text-align: center;
+  padding: 20px 0 25px;
 }
 
 .logo {
-  display:inline-grid;
-  place-items:center;
-  width:64px;
-  height:64px;
-  border:1px solid var(--green);
-  border-radius:18px;
-  color:var(--green);
-  font-size:26px;
-  font-weight:900;
-  box-shadow:0 0 28px #28ff7830;
-  margin-bottom:13px;
-  background:#07170c;
+  width: 65px;
+  height: 65px;
+  display: grid;
+  place-items: center;
+  margin: auto auto 13px;
+  border: 1px solid var(--green);
+  border-radius: 17px;
+  background: #07170c;
+  color: var(--green);
+  font-size: 26px;
+  font-weight: 900;
+  box-shadow: 0 0 28px #25ff7833;
 }
 
 h1 {
-  font-size:clamp(27px,6vw,43px);
-  margin:0;
-  letter-spacing:1.5px;
-  color:var(--green);
-  text-shadow:0 0 20px #28ff7840;
+  margin: 0;
+  color: var(--green);
+  font-size: clamp(27px, 6vw, 43px);
+  letter-spacing: 2px;
+  text-shadow: 0 0 20px #25ff7844;
 }
 
 .subtitle {
-  color:var(--muted);
-  margin:8px 0 0;
-  font-size:11px;
-  letter-spacing:2px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin-top: 9px;
 }
 
-.live {
-  display:inline-flex;
-  gap:8px;
-  align-items:center;
-  color:var(--mint);
-  font-size:10px;
-  letter-spacing:1.3px;
-  margin-top:15px;
-  border:1px solid var(--line);
-  border-radius:30px;
-  padding:7px 11px;
-  background:#06140a;
+.online {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  margin-top: 14px;
+  color: var(--mint);
+  font-size: 10px;
+  letter-spacing: 1px;
 }
 
 .dot {
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 10px var(--green);
+  width: 7px;
+  height: 7px;
+  background: var(--green);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--green);
 }
 
 .card {
-  background:linear-gradient(145deg,#0c1b11f5,#061009fa);
-  border:1px solid var(--line);
-  border-radius:17px;
-  padding:19px;
-  margin:13px 0;
-  box-shadow:0 12px 32px #0005;
+  padding: 18px;
+  margin: 13px 0;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: linear-gradient(145deg, #0b1c10, #050c07);
+  box-shadow: 0 12px 30px #0005;
 }
 
 h2 {
-  font-size:15px;
-  margin:0 0 15px;
-  color:var(--mint);
-  letter-spacing:.4px;
+  color: var(--mint);
+  font-size: 14px;
+  margin: 0 0 15px;
 }
 
-.num {
-  color:var
+.section-number {
+  color: var(--green);
+  font-family: monospace;
+  margin-right: 7px;
+}
+
+.files {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.filebox {
+  padding: 15px;
+  min-width: 0;
+  border: 1px dashed #34764a;
+  border-radius: 12px;
+  background: #050e08;
+}
+
+.file-icon {
+  font-size: 25px;
+  margin-bottom: 8px;
+}
+
+.filebox strong {
+  font-size: 13px;
+}
+
+.filename {
+  min-height: 42px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  margin: 8px 0 13px;
+}
+
+input[type=file] {
+  display: none;
+}
+
+button,
+.pick {
+  display: inline-block;
+  padding: 12px;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .3px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.pick {
+  background: #10351d;
+  border: 1px solid #34764a;
+  color: var(--mint);
+}
+
+button {
+  width: 100%;
+  border: 0;
+  margin-top: 11px;
+}
+
+.primary {
+  background: var(--green);
+  color: #031007;
+  box-shadow: 0 0 20px #25ff7820;
+}
+
+.secondary {
+  background: #102318;
+  color: var(--mint);
+  border: 1px solid var(--line);
+}
+
+.danger-button {
+  background: #251d0b;
+  color: var(--yellow);
+  border: 1px solid #755c22;
+}
+
+button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+.small {
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+}
+
+.stat {
+  min-width: 0;
+  padding: 12px 9px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #040d07;
+}
+
+.stat span {
+  color: var(--muted);
+  display: block;
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.stat strong {
+  display: block;
+  color: var(--green);
+  margin-top: 7px;
+  font-size: clamp(13px, 3vw, 19px);
+  overflow-wrap: anywhere;
+}
+
+.progress-track {
+  height: 9px;
+  background: #15251a;
+  border: 1px solid #20442b;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 12px 0 7px;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--green);
+  box-shadow: 0 0 15px var(--green);
+  transition: width .15s linear;
+}
+
+.progress-text {
+  color: var(--green);
+  font: 12px monospace;
+  text-align: right;
+}
+
+.scan-screen {
+  min-height: 110px;
+  max-height: 230px;
+  overflow: auto;
+  padding: 12px;
+  border: 1px solid #18482a;
+  border-radius: 10px;
+  background: #020704;
+  font: 11px/1.8 monospace;
+}
+
+.logline {
+  overflow-wrap: anywhere;
+}
+
+.logtime {
+  color: #668f71;
+}
+
+.logok {
+  color: var(--green);
+}
+
+.logwarn {
+  color: var(--yellow);
+}
+
+.logerror {
+  color: var(--red);
+}
+
+.stage {
+  display: flex;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid #173823;
+}
+
+.stage:last-child {
+  border-bottom: 0;
+}
+
+.stage-icon {
+  color: var(--green);
+  font-family: monospace;
+  font-weight: bold;
+}
+
+.stage strong {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.stage p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.result {
+  padding: 13px;
+  margin-top: 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #040d07;
+  font-size: 12px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.good {
+  color: var(--green);
+}
+
+.warn {
+  color: var(--yellow);
+}
+
+.bad {
+  color: var(--red);
+}
+
+.hash {
+  font: 10px/1.6 monospace;
+  color: #b2d6bb;
+  word-break: break-all;
+  margin-top: 5px;
+}
+
+.compat {
+  padding: 14px;
+  border: 1px solid #755c22;
+  border-radius: 10px;
+  background: #211b0a;
+  font-size: 12px;
+  line-height: 1.7;
+  margin-top: 12px;
+}
+
+.compat strong {
+  color: var(--yellow);
+  display: block;
+  margin-bottom: 5px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+footer {
+  text-align: center;
+  padding: 22px 5px 0;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 1.4px;
+  line-height: 2;
+}
+
+@media (max-width: 560px) {
+  .files {
+    grid-template-columns: 1fr;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 14px;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+<header>
+  <div class="logo">&lt;/&gt;</div>
+
+  <h1>FREEZA MOBILE</h1>
+
+  <div class="subtitle">
+    UNITY ASSETS · SCANNER PRO
+  </div>
+
+  <div class="online">
+    <span class="dot"></span>
+    SISTEMA LOCAL DE DIAGNÓSTICO
+  </div>
+</header>
+
+<section class="card">
+  <h2><span class="section-number">01 /</span> SELEÇÃO DE ARQUIVOS</h2>
+
+  <div class="files">
+    <div class="filebox">
+      <div class="file-icon">📁</div>
+      <strong>Arquivo original</strong>
+      <div class="filename" id="nameOriginal">
+        Nenhum arquivo selecionado
+      </div>
+
+      <label class="pick" for="originalFile">
+        SELECIONAR ORIGINAL
+      </label>
+
+      <input id="originalFile" type="file">
+    </div>
+
+    <div class="filebox">
+      <div class="file-icon">🧩</div>
+      <strong>Arquivo modificado</strong>
+      <div class="filename" id="nameModified">
+        Nenhum arquivo selecionado
+      </div>
+
+      <label class="pick" for="modifiedFile">
+        SELECIONAR MODIFICADO
+      </label>
+
+      <input id="modifiedFile" type="file">
+    </div>
+  </div>
+
+  <button class="primary" id="scanButton">
+    ▶ INICIAR SCANNER EM TEMPO REAL
+  </button>
+
+  <button class="danger-button" id="adjustButton">
+    ⚙ ANALISAR AJUSTE DE TAMANHO
+  </button>
+
+  <p class="small">
+    A análise é executada no navegador. Os arquivos não são enviados
+    para um servidor por este código.
+  </p>
+</section>
+
+<section class="card">
+  <h2><span class="section-number">02 /</span> MONITOR DE SCAN</h2>
+
+  <div class="stats">
+    <div class="stat">
+      <span>Tamanho original</span>
+      <strong id="sizeOriginal">—</strong>
+    </div>
+
+    <div class="stat">
+      <span>Tamanho modificado</span>
+      <strong id="sizeModified">—</strong>
+    </div>
+
+    <div class="stat">
+      <span>Diferença</span>
+      <strong id="sizeDifference">—</strong>
+    </div>
+  </div>
+
+  <div class="progress-track">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <div class="progress-text" id="progressText">0%</div>
+
+  <p class="small" id="scanStatus">
+    Aguardando seleção dos arquivos.
+  </p>
+
+  <div class="scan-screen" id="console" aria-live="polite">
+    <div class="logline">
+      <span class="logtime">[SYSTEM]</span>
+      FREEZA MOBILE SCANNER PRO iniciado.
+    </div>
+    <div class="logline">
+      <span class="logok">[READY]</span>
+      Aguardando arquivos.
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2><span class="section-number">03 /</span> ETAPAS DA ANÁLISE</h2>
+
+  <div id="stages">
+    <div class="stage">
+      <div class="stage-icon">[01]</div>
+      <div>
+        <strong>Identificação dos arquivos</strong>
+        <p>Aguardando execução.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-icon">[02]</div>
+      <div>
+        <strong>Leitura preliminar do cabeçalho</strong>
+        <p>Aguardando execução.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-icon">[03]</div>
+      <div>
+        <strong>Verificação SHA-256</strong>
+        <p>Aguardando execução.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-icon">[04]</div>
+      <div>
+        <strong>Relatório de compatibilidade</strong>
+        <p>Aguardando execução.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="card">
+  <h2><span class="section-number">04 /</span> RELATÓRIO TÉCNICO</h2>
+
+  <div class="result" id="headerOriginal">
+    Cabeçalho do original: aguardando análise.
+  </div>
+
+  <div class="result" id="headerModified">
+    Cabeçalho do modificado: aguardando análise.
+  </div>
+
+  <div class="result">
+    <strong>SHA-256 — ORIGINAL</strong>
+    <div class="hash" id="hashOriginal">Aguardando...</div>
+  </div>
+
+  <div class="result">
+    <strong>SHA-256 — MODIFICADO</strong>
+    <div class="hash" id="hashModified">Aguardando...</div>
+  </div>
+
+  <div class="result" id="hashResult">
+    Comparação de conteúdo ainda não executada.
+  </div>
+
+  <div class="compat" id="compatibility">
+    <strong>COMPATIBILIDADE NÃO VERIFICADA</strong>
+    Execute o scanner para gerar o relatório preliminar.
+    Este diagnóstico não garante que o jogo carregará os arquivos.
+  </div>
+
+  <button class="secondary" id="downloadButton">
+    ⬇ BAIXAR CÓPIA DO ARQUIVO MODIFICADO
+  </button>
+</section>
+
+<section class="card">
+  <h2><span class="section-number">05 /</span> SOBRE O AJUSTE DE TAMANHO</h2>
+
+  <p class="small">
+    O botão de ajuste calcula a diferença exata e verifica os sinais
+    básicos disponíveis. Ele não modifica os bytes do arquivo.
+  </p>
+
+  <div class="result" id="adjustResult">
+    Selecione os dois arquivos e toque em
+    "ANALISAR AJUSTE DE TAMANHO".
+  </div>
+
+  <p class="small">
+    Arquivos Unity podem conter metadados, offsets, referências e dados
+    externos. Adicionar zeros ou cortar bytes não garante compatibilidade.
+    O ajuste só deve ser implementado com um método específico para a
+    estrutura e a versão do arquivo.
+  </p>
+</section>
+
+<footer>
+  CRIADO POR FREEZA MOBILE<br>
+  SCANNER PRO · PROCESSAMENTO LOCAL
+</footer>
+
+</div>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+
+let original = null;
+let modified = null;
+let scanning = false;
+
+const MAX_HASH_SIZE = 150 * 1024 * 1024;
+
+function formatBytes(n) {
+  if (n < 1024) return n + " bytes";
+  if (n < 1024 ** 2) return (n / 1024).toFixed(2) + " KB";
+  if (n < 1024 ** 3) return (n / 1024 ** 2).toFixed(2) + " MB";
+  return (n / 1024 ** 3).toFixed(2) + " GB";
+}
+
+function log(message, type = "logok") {
+  const row = document.createElement("div");
+  row.className = "logline";
+
+  const time = new Date().toLocaleTimeString("pt-BR");
+
+  const timestamp = document.createElement("span");
+  timestamp.className = "logtime";
+  timestamp.textContent = "[" + time + "] ";
+
+  const content = document.createElement("span");
+  content.className = type;
+  content.textContent = message;
+
+  row.append(timestamp, content);
+  $("console").appendChild(row);
+
+  $("console").scrollTop = $("console").scrollHeight;
+}
+
+function setProgress(value, status) {
+  const p = Math.max(0, Math.min(100, value));
+
+  $("progressBar").style.width = p + "%";
+  $("progressText").textContent = Math.round(p) + "%";
+  $("scanStatus").textContent = status;
+}
+
+function stage(title, description, icon = "✓") {
+  const wrapper = document.createElement("div");
+  wrapper.className = "stage";
+
+  const marker = document.createElement("div");
+  marker.className = "stage-icon";
+  marker.textContent = "[" + icon + "]";
+
+  const content = document.createElement("div");
+
+  const heading = document.createElement("strong");
+  heading.textContent = title;
+
+  const paragraph = document.createElement("p");
+  paragraph.textContent = description;
+
+  content.append(heading, paragraph);
+  wrapper.append(marker, content);
+
+  return wrapper;
+}
+
+function showStages(items) {
+  $("stages").replaceChildren();
+
+  for (const item of items) {
+    $("stages").appendChild(
+      stage(item.title, item.description, item.icon || "✓")
+    );
+  }
+}
+
+function updateFiles() {
+  const a = $("originalFile").files[0] || null;
+  const b = $("modifiedFile").files[0] || null;
+
+  if (a !== original || b !== modified) {
+    original = a;
+    modified = b;
+
+    $("nameOriginal").textContent = original
+      ? original.name + " · " + formatBytes(original.size)
+      : "Nenhum arquivo selecionado";
+
+    $("nameModified").textContent = modified
+      ? modified.name + " · " + formatBytes(modified.size)
+      : "Nenhum arquivo selecionado";
+
+    $("sizeOriginal").textContent =
+      original ? formatBytes(original.size) : "—";
+
+    $("sizeModified").textContent =
+      modified ? formatBytes(modified.size) : "—";
+
+    if (original && modified) {
+      const delta = modified.size - original.size;
+
+      $("sizeDifference").textContent =
+        (delta > 0 ? "+" : "") + formatBytes(delta);
+    } else {
+      $("sizeDifference").textContent = "—";
+    }
+
+    $("headerOriginal").textContent =
+      "Cabeçalho do original: aguardando nova análise.";
+
+    $("headerModified").textContent =
+      "Cabeçalho do modificado: aguardando nova análise.";
+
+    $("hashOriginal").textContent = "Aguardando...";
+    $("hashModified").textContent = "Aguardando...";
+
+    $("hashResult").textContent =
+      "Seleção alterada. Execute um novo scan.";
+
+    $("compatibility").innerHTML =
+      "<strong>COMPATIBILIDADE NÃO VERIFICADA</strong>" +
+      "Os arquivos mudaram. Execute um novo scan.";
+
+    $("adjustResult").textContent =
+      "Execute a análise de tamanho para a seleção atual.";
+
+    setProgress(0, "Arquivos selecionados. Aguardando scan.");
+
+    log("Seleção de arquivos atualizada.");
+  }
+}
+
+$("originalFile").addEventListener("change", updateFiles);
+$("modifiedFile").addEventListener("change", updateFiles);
+
+async function inspectHeader(file) {
+  const buffer = await file.slice(0, 64).arrayBuffer();
+  const bytes = new Uint8Array(buffer);
+
+  const report = {
+    size: file.size,
+    details: [],
+    warning: false
+  };
+
+  if (bytes.length < 16) {
+    report.details.push(
+      "Arquivo muito pequeno para interpretar o cabeçalho clássico."
+    );
+
+    report.warning = true;
+    return report;
+  }
+
+  const view = new DataView(buffer);
+
+  const metaSize = view.getUint32(0, false);
+  const declaredSize = view.getUint32(4, false);
+  const version = view.getUint32(8, false);
+  const dataOffset = view.getUint32(12, false);
+
+  report.details.push(
+    "Metadados declarados: " + formatBytes(metaSize)
+  );
+
+  report.details.push(
+    "Tamanho declarado no cabeçalho: " + formatBytes(declaredSize)
+  );
+
+  report.details.push(
+    "Versão indicada no cabeçalho: " + version
+  );
+
+  report.details.push(
+    "Offset indicado no cabeçalho: " + dataOffset + " bytes"
+  );
+
+  if (version >= 1 && version <= 21) {
+    report.details.push(
+      "O campo de versão está na faixa esperada pelo parser clássico."
+    );
+
+    if (declaredSize !== file.size) {
+      report.details.push(
+        "ALERTA: tamanho declarado diferente do tamanho real."
+      );
+
+      report.warning = true;
+    }
+
+    if (dataOffset > file.size) {
+      report.details.push(
+        "ALERTA: offset ultrapassa o tamanho real."
+      );
+
+      report.warning = true;
+    }
+
+    if (metaSize > file.size) {
+      report.details.push(
+        "ALERTA: tamanho dos metadados maior que o arquivo."
+      );
+
+      report.warning = true;
+    }
+  } else if (version >= 22) {
+    report.details.push(
+      "Versão 22 ou superior: o formato pode usar cabeçalho estendido."
+    );
+
+    report.details.push(
+      "Este scanner não interpreta o cabeçalho estendido."
+    );
+
+    report.warning = true;
+  } else {
+    report.details.push(
+      "Cabeçalho não reconhecido com segurança como SerializedFile clássico."
+    );
+
+    report.warning = true;
+  }
+
+  return report;
+}
+
+function displayHeader(elementId, name, report) {
+  const box = $(elementId);
+  box.replaceChildren();
+
+  const title = document.createElement("strong");
+  title.textContent = name;
+
+  box.appendChild(title);
+
+  for (const line of report.details) {
+    const p = document.createElement("div");
+    p.textContent = "• " + line;
+    p.style.marginTop = "5px";
+    box.appendChild(p);
+  }
+
+  const note = document.createElement("div");
+  note.className = report.warning ? "warn" : "good";
+  note.style.marginTop = "8px";
+
+  note.textContent = report.warning
+    ? "Há pontos que precisam de validação adicional."
+    : "Nenhuma inconsistência básica detectada nos campos interpretados.";
+
+  box.appendChild(note);
+}
+
+async function sha256(file) {
+  if (!crypto.subtle) {
+    return {
+      value: null,
+      reason: "SHA-256 indisponível neste contexto do navegador."
+    };
+  }
+
+  if (file.size > MAX_HASH_SIZE) {
+    return {
+      value: null,
+      reason: "Arquivo acima de 150 MB. Hash omitido para limitar o uso de memória."
+    };
+  }
+
+  const buffer = await file.arrayBuffer();
+  const digest = await crypto.subtle.digest("SHA-256", buffer);
+
+  const hex = Array.from(new Uint8Array(digest))
+    .map(n => n.toString(16).padStart(2, "0"))
+    .join("");
+
+  return {
+    value: hex,
+    reason: null
+  };
+}
+
+function ensureFiles() {
+  updateFiles();
+
+  if (!original || !modified) {
+    alert("Selecione o arquivo original e o arquivo modificado.");
+    return false;
+  }
+
+  return true;
+}
+
+$("scanButton").addEventListener("click", async () => {
+  if (scanning) return;
+  if (!ensureFiles()) return;
+
+  scanning = true;
+  $("scanButton").disabled = true;
+  $("console").replaceChildren();
+
+  showStages([
+    {
+      title: "Etapa 1 — Identificação",
+      description: "Processando seleção dos arquivos.",
+      icon: "..."
+    },
+    {
+      title: "Etapa 2 — Cabeçalhos",
+      description: "Aguardando leitura.",
+      icon: "..."
+    },
+    {
+      title: "Etapa 3 — SHA-256",
+      description: "Aguardando cálculo.",
+      icon: "..."
+    },
+    {
+      title: "Etapa 4 — Relatório",
+      description: "Aguardando resultados.",
+      icon: "..."
+    }
+  ]);
+
+  const stageItems = [];
+
+  try {
+    log("Scanner iniciado.");
+    setProgress(5, "Etapa 1/4: identificando os arquivos.");
+
+    stageItems.push({
+      title: "Etapa 1 — Identificação concluída",
+      description:
+        "Original: " + original.name + " (" + formatBytes(original.size) +
+        "). Modificado: " + modified.name + " (" +
+        formatBytes(modified.size) + ")."
+    });
+
+    log("Tamanhos e nomes identificados.");
+    setProgress(20, "Etapa 2/4: lendo os cabeçalhos.");
+
+    await new Promise(resolve => setTimeout(resolve, 120));
+
+    const [headerA, headerB] = await Promise.all([
+      inspectHeader(original),
+      inspectHeader(modified)
+    ]);
+
+    displayHeader("headerOriginal", "ORIGINAL", headerA);
+    displayHeader("headerModified", "MODIFICADO", headerB);
+
+    stageItems.push({
+      title: "Etapa 2 — Cabeçalhos analisados",
+      description:
+        "A leitura preliminar foi concluída. Não representa validação integral do formato."
+    });
+
+    log("Leitura preliminar dos cabeçalho
