@@ -887,60 +887,584 @@ Versão: SCANNER PRO v1.0
 
 4. CABEÇALHOS HEXADECIMAIS (32 Primeiros Bytes):
 - Original: ${analysisData.origHex}
-- Modificado: ${analysisData.modHex}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FREEZA MOBILE | SCANNER PRO</title>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --panel-bg: #0a0e0a;
+            --neon-green: #00ff66;
+            --neon-dim: rgba(0, 255, 102, 0.15);
+            --neon-glow: 0 0 15px rgba(0, 255, 102, 0.4);
+            --border-color: #1a331a;
+            --border-hover: #00ff66;
+            --text-main: #c0ffc0;
+            --text-muted: #669966;
+            --danger: #ff3333;
+            --warning: #ffcc00;
+            --info: #00ccff;
+        }
 
-5. STATUS DA VALIDAÇÃO:
-- ${analysisData.origHash === analysisData.modHash ? 'CONTEÚDO IDÊNTICO' : 'CONTEÚDO DIFERENTE'}
-- Compatibilidade estrutural avançada requer validação de formato específico (Unity .assets / Binários).
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
 
-==================================================
-GERADO LOCALMENTE PELO FREEZA MOBILE SCANNER PRO
-==================================================`;
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            overflow-x: hidden;
+        }
 
-            const blob = new Blob([reportContent], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Relatorio_ScannerPro_${Date.now()}.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            logToConsole('SUCCESS', 'Relatório de análise baixado com sucesso.');
-        });
+        header {
+            border: 1px solid var(--border-color);
+            background: var(--panel-bg);
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: var(--neon-glow);
+            position: relative;
+        }
 
-        // Seção 05 / Ajuste de Tamanho
-        btnAnalyzeSize.addEventListener('click', () => {
-            if (!analysisData) {
-                alert('Por favor, execute a análise completa primeiro (Seção 02).');
-                return;
+        header h1 {
+            color: var(--neon-green);
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+
+        header .subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            flex: 1;
+        }
+
+        section {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 20px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.8);
+            position: relative;
+        }
+
+        section h2 {
+            color: var(--neon-green);
+            font-size: 1rem;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
             }
-            logToConsole('INFO', `Diagnóstico de tamanho executado. Diferença: ${analysisData.sizeDiff} bytes.`);
-            addSystemWarning('warning', `Diferença dimensional de ${analysisData.sizeDiff} bytes identificada entre os arquivos.`);
-            alert(`Diagnóstico de Tamanho:\n- Diferença absoluta: ${analysisData.sizeDiff} bytes\n- Diferença percentual: ${analysisData.percentDiff}%\n- Risco de incompatibilidade estrutural: Moderado/Alto se o formato exigir cabeçalhos rígidos.`);
-        });
+        }
 
-        btnValidateTarget.addEventListener('click', () => {
-            if (!analysisData) {
-                alert('Execute a análise completa primeiro.');
-                return;
-            }
-            const targetVal = parseInt(targetSizeInput.value, 10);
-            if (isNaN(targetVal) || targetVal < 0) {
-                alert('Informe um valor de tamanho-alvo válido em bytes.');
-                return;
-            }
+        .file-box {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
 
-            const currentModSize = analysisData.modSize;
-            const delta = targetVal - currentModSize;
-            logToConsole('INFO', `Validação de tamanho-alvo solicitada: ${targetVal} bytes. Delta necessário: ${delta} bytes.`);
-            
-            if (delta === 0) {
-                addSystemWarning('success', 'O arquivo modificado já possui exatamente o tamanho-alvo especificado.');
-                alert('O arquivo modificado já possui o tamanho-alvo informado.');
-            } else if (delta > 0) {
-                addSystemWarning('warning', `Para atingir o alvo, seriam necessários +${delta} bytes de preenchimento (Padding).`);
-                alert(`Validação concluída: Faltam ${delta} bytes para o tamanho-alvo. É possível gerar uma cópia com preenchimento de zeros.`);
+        .file-box label {
+            font-size: 0.85rem;
+            color: var(--neon-green);
+            font-weight: bold;
+        }
+
+        .file-info {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            word-break: break-all;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .btn-file {
+            background: transparent;
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            padding: 8px 12px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.2s;
+            text-transform: uppercase;
+        }
+
+        .btn-file:hover {
+            background: var(--neon-dim);
+            box-shadow: 0 0 8px var(--neon-green);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        button.action-btn {
+            background: var(--panel-bg);
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            flex: 1;
+            min-width: 140px;
+            transition: 0.2s;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        button.action-btn:hover:not(:disabled) {
+            background: var(--neon-green);
+            color: var(--bg-color);
+            box-shadow: var(--neon-glow);
+        }
+
+        button.action-btn:disabled {
+            border-color: var(--text-muted);
+            color: var(--text-muted);
+            cursor: not-allowed;
+        }
+
+        /* Scanner Visual */
+        .scanner-visual {
+            height: 120px;
+            border: 1px solid var(--border-color);
+            background: #000;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .scanner-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--neon-green);
+            box-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
+            animation: scanMove 2s infinite ease-in-out;
+            display: none;
+        }
+
+        @keyframes scanMove {
+            0% { top: 0%; }
+            50% { top: 98%; }
+            100% { top: 0%; }
+        }
+
+        .scanner-status-text {
+            font-size: 0.9rem;
+            color: var(--neon-green);
+            letter-spacing: 1px;
+            z-index: 2;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 8px;
+            background: #000;
+            border: 1px solid var(--border-color);
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--neon-green);
+            box-shadow: 0 0 8px var(--neon-green);
+            transition: width 0.3s ease;
+        }
+
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        /* Console */
+        .console-box {
+            background: #020402;
+            border: 1px solid var(--border-color);
+            height: 180px;
+            overflow-y: auto;
+            padding: 10px;
+            font-size: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .log-entry {
+            display: flex;
+            gap: 10px;
+            line-height: 1.3;
+        }
+
+        .log-time {
+            color: var(--text-muted);
+            min-width: 70px;
+        }
+
+        .log-msg.SYSTEM { color: var(--text-main); }
+        .log-msg.INFO { color: var(--info); }
+        .log-msg.SCAN { color: var(--neon-green); }
+        .log-msg.SUCCESS { color: var(--neon-green); font-weight: bold; }
+        .log-msg.WARNING { color: var(--warning); }
+        .log-msg.ERROR { color: var(--danger); font-weight: bold; }
+
+        /* Report Table & Data */
+        .report-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .report-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .report-item {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+        }
+
+        .report-item span.label {
+            color: var(--text-muted);
+            display: block;
+            font-size: 0.7rem;
+            margin-bottom: 3px;
+            text-transform: uppercase;
+        }
+
+        .report-item span.value {
+            color: var(--neon-green);
+            word-break: break-all;
+            font-size: 0.8rem;
+        }
+
+        .hex-preview {
+            background: #000;
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            font-size: 0.7rem;
+            color: #00ffcc;
+            max-height: 80px;
+            overflow-y: auto;
+            margin-top: 5px;
+            word-break: break-all;
+        }
+
+        /* Size Adjust Section */
+        .control-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .control-row input[type="number"] {
+            background: #000;
+            border: 1px solid var(--border-color);
+            color: var(--neon-green);
+            padding: 8px;
+            font-family: inherit;
+            flex: 1;
+            min-width: 180px;
+            font-size: 0.85rem;
+        }
+
+        .control-row input[type="number"]:focus {
+            outline: none;
+            border-color: var(--neon-green);
+        }
+
+        /* Warnings Section */
+        .warnings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .warning-item {
+            padding: 8px 10px;
+            font-size: 0.75rem;
+            border-left: 3px solid;
+            background: rgba(0,0,0,0.4);
+        }
+
+        .warning-item.info { border-color: var(--info); color: var(--info); }
+        .warning-item.warning { border-color: var(--warning); color: var(--warning); }
+        .warning-item.error { border-color: var(--danger); color: var(--danger); }
+        .warning-item.success { border-color: var(--neon-green); color: var(--neon-green); }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: var(--panel-bg);
+            margin-top: 20px;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>FREEZA MOBILE | SCANNER PRO</h1>
+        <div class="subtitle">DIAGNÓSTICO AVANÇADO DE ARQUIVOS LOCAIS v1.0</div>
+    </header>
+
+    <div class="container">
+
+        <!-- 01 / SELEÇÃO DOS ARQUIVOS -->
+        <section>
+            <h2>01 / SELEÇÃO DOS ARQUIVOS</h2>
+            <div class="grid-2">
+                <div class="file-box">
+                    <label>A) ARQUIVO ORIGINAL</label>
+                    <div class="file-info" id="origInfo">Status: Nenhum arquivo selecionado</div>
+                    <label for="origFile" class="btn-file">Selecionar Arquivo</label>
+                    <input type="file" id="origFile">
+                </div>
+                <div class="file-box">
+                    <label>B) ARQUIVO MODIFICADO</label>
+                    <div class="file-info" id="modInfo">Status: Nenhum arquivo selecionado</div>
+                    <label for="modFile" class="btn-file">Selecionar Arquivo</label>
+                    <input type="file" id="modFile">
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="action-btn" id="btnAnalyze" disabled>INICIAR ANÁLISE COMPLETA</button>
+                <button class="action-btn" id="btnClear">LIMPAR SELEÇÃO</button>
+                <button class="action-btn" id="btnQuickReport" disabled>GERAR RELATÓRIO</button>
+            </div>
+        </section>
+
+        <!-- 02 / SCANNER EM TEMPO REAL -->
+        <section>
+            <h2>02 / SCANNER EM TEMPO REAL</h2>
+            <div class="scanner-visual">
+                <div class="scanner-line" id="scannerLine"></div>
+                <div class="scanner-status-text" id="scannerStatusText">SISTEMA EM ESPERA</div>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="progress-meta">
+                <span id="progressStep">Etapa: Aguardando início</span>
+                <span id="progressPercent">0%</span>
+            </div>
+        </section>
+
+        <!-- 03 / CONSOLE DE DIAGNÓSTICO -->
+        <section>
+            <h2>
+                03 / CONSOLE DE DIAGNÓSTICO
+                <button class="action-btn" id="btnClearConsole" style="padding: 3px 8px; font-size: 0.65rem; min-width: auto;">Limpar Console</button>
+            </h2>
+            <div class="console-box" id="consoleBox">
+                <!-- Entradas inseridas via JS -->
+            </div>
+        </section>
+
+        <!-- 04 / RELATÓRIO DA ANÁLISE -->
+        <section>
+            <h2>04 / RELATÓRIO DA ANÁLISE</h2>
+            <div class="report-grid">
+                <div class="report-item">
+                    <span class="label">Arquivo Original</span>
+                    <span class="value" id="repOrigName">-</span>
+                </div>
+                <div class="report-item">
+                    <span class="label">Arquivo Modificado</span>
+                    <span class="value" id="repModName">-</span>
+                </div>
+                <div class="report-item">
+                    <span class="label">Tamanho Original</span>
+                    <span class="value" id="repOrigSize">-</span>
+                </div>
+                <div class="report-item">
+                    <span class="label">Tamanho Modificado</span>
+                    <span class="value" id="repModSize">-</span>
+                </div>
+                <div class="report-item">
+                    <span class="label">Diferença Exata</span>
+                    <span class="value" id="repDiffBytes">-</span>
+                </div>
+                <div class="report-item">
+                    <span class="label">Diferença Percentual</span>
+                    <span class="value" id="repDiffPercent">-</span>
+                </div>
+                <div class="report-item">
+                    <span class="label">Hash SHA-256 (Original)</span>
+                    <span class="value" id="repOrigHash">-</span>
+                </div>
+                <div class="report-item">
+                    <span class="label">Hash SHA-256 (Modificado)</span>
+                    <span class="value" id="repModHash">-</span>
+                </div>
+                <div class="report-item" style="grid-column: span 2;">
+                    <span class="label">Cabeçalho Hexadecimal (Orig. / Mod.)</span>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:5px;">
+                        <div>
+                            <span style="font-size:0.65rem; color:var(--text-muted);">Original:</span>
+                            <div class="hex-preview" id="repOrigHex">N/A</div>
+                        </div>
+                        <div>
+                            <span style="font-size:0.65rem; color:var(--text-muted);">Modificado:</span>
+                            <div class="hex-preview" id="repModHex">N/A</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="report-item" style="grid-column: span 2;">
+                    <span class="label">Resultado da Comparação & Validação</span>
+                    <span class="value" id="repResultStatus">Aguardando execução da análise.</span>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-top: 15px;">
+                <button class="action-btn" id="btnDownloadReport" disabled>BAIXAR RELATÓRIO DA ANÁLISE (.TXT)</button>
+            </div>
+        </section>
+
+        <!-- 05 / AJUSTE DE TAMANHO -->
+        <section>
+            <h2>05 / AJUSTE DE TAMANHO</h2>
+            <div class="report-grid" style="margin-bottom: 15px;">
+                <div class="report-item">
+                    <span class="label">Maior Arquivo Detectado</span>
+                    <span class="value" id="adjLargest">-</span>
+                </div>
+                <div class="report-item">
+                    <span class="label">Diagnóstico Estrutural</span>
+                    <span class="value" id="adjDiagnostics">Pendente de análise.</span>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-top: 0; margin-bottom: 15px;">
+                <button class="action-btn" id="btnAnalyzeSize" disabled>ANALISAR DIFERENÇA DE TAMANHO</button>
+                <button class="action-btn" id="btnMatchOriginalSize" disabled style="border-color: var(--warning); color: var(--warning);">IGUALAR AO TAMANHO ORIGINAL</button>
+            </div>
+            <div class="control-row">
+                <input type="number" id="targetSizeInput" placeholder="Tamanho-alvo personalizado em bytes..." min="0">
+                <button class="action-btn" id="btnValidateTarget" disabled>VALIDAR TAMANHO-ALVO</button>
+                <button class="action-btn" id="btnDownloadModifiedCopy" disabled>BAIXAR CÓPIA DO MODIFICADO</button>
+            </div>
+            <div style="font-size: 0.7rem; color: var(--warning); margin-top: 8px;" id="sizeWarningMsg">
+                [!] Aviso: Modificações binárias ou truncamentos podem corromper arquivos estruturados (como .assets ou binários de jogos). Nenhuma alteração afeta o arquivo original.
+            </div>
+        </section>
+
+        <!-- 06 / AVISOS DO SISTEMA -->
+        <section>
+            <h2>06 / AVISOS DO SISTEMA</h2>
+            <div class="warnings-list" id="warningsList">
+                <div class="warning-item info">[INFO] Sistema inicializado e pronto para operação local.</div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        FREEZA MOBILE | CRIADO POR FREEZA MOBILE | SCANNER PRO v1.0 | ANÁLISE LOCAL DE ARQUIVOS
+    </footer>
+
+    <script>
+        // Estado Global da Aplicação
+        let originalFile = null;
+        let modifiedFile = null;
+        let isAnalyzing = false;
+        let analysisData = null;
+
+        // Elementos DOM
+        const origFileInput = document.getElementById('origFile');
+        const modFileInput = document.getElementById('modFile');
+        const origInfo = document.getElementById('origInfo');
+        const modInfo = document.getElementById('modInfo');
+        const btnAnalyze = document.getElementById('btnAnalyze');
+        const btnClear = document.getElementById('btnClear');
+        const btnQuickReport = document.getElementById('btnQuickReport');
+        
+        const scannerLine = document.getElementById('scannerLine');
+        const scannerStatusText = document.getElementById('scannerStatusText');
+        const progressBar = document.getElementById('progressBar');
+        const progressStep = document.getElementById('progressStep');
+        const progressPercent = document.getElementById('progressPercent');
+        
+        const consoleBox = document.getElementById('consoleBox');
+        const btnClearConsole = document.getElementById('btnClearConsole');
+
+        // Relatório
+        const repOrigName = document.getElementById('repOrigName');
+        const repModName = document.getElementById('repModName');
+        const repOrigSize = document.getElementById('repOrigSize');
+        const repModSize = document.getElementById('repModSize');
+        const repDiffBytes = document.getElementById('repDiffBytes');
+        const repDiffPercent = document.getElementById('repDiffPercent');
+        const repOrigHash = document.getElementById('repOrigHash');
+        const repModHash = document.getElementById('repModHash');
+        const repOrigHex = document.getElementById('repOrigHex');
+        const repModHex = document.getElementById('repModHex');
+        const repResultStatus = document.getElementById('repResultStatus');
+        const btnDownl
+para o tamanho-alvo. É possível gerar uma cópia com preenchimento de zeros.`);
             } else {
                 addSystemWarning('warning', `Para atingir o alvo, seriam necessários truncar ${Math.abs(delta)} bytes.`);
                 alert(`Validação concluída: O arquivo excede o alvo em ${Math.abs(delta)} bytes. O truncamento pode corromper dados.`);
